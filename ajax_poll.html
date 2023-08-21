@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Project</title>
+    <style>
+        .wrapper {
+            margin: 0 auto;
+        }
+
+        #poll {
+            height: 300px;
+            width: 50%;
+            border: 1px solid #333;     
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        .choice {
+            display: flex;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        p {
+            padding-left: 30px;
+            margin-bottom: 0;
+            margin-top: 10px;
+        }
+
+        table {
+            margin: 0 auto;
+            font-size: 40px;
+        }
+
+
+    </style>
+    <!-- This is the JavaScript code. When the user click the button, this function will be called -->
+    <script>
+        function getVote(int) {  // Get the int number when user click the button
+            const xhr = new XMLHttpRequest();  // This is for creating object to communicate with the server 
+            xhr.open("GET", "ajax_poll.php?vote=" + int, true);  // Send the Get response with the int number 
+            xhr.send(); // Send the request
+            xhr.onload = function() {  // When get the respose from the server, this will be executed
+                console.log(this.status);
+                if(this.status == 200) {  // If the server send 200, the connection is good and this code will be executed
+                    document.querySelector("#poll").innerHTML = this.responseText;  // Change the value of the #poll to the value which the server sends
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="poll">
+            <h1>Do you like PHP class?</h1>
+            <form action="">
+                <div class="choice">
+                    <input type="radio" name="vote" value="0" onclick="getVote(this.value)">
+                    <p>Yes</p>
+                </div>
+                <div class="choice">
+                    <input type="radio" name="vote" value="1" onclick="getVote(this.value)">
+                    <p>No</p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
